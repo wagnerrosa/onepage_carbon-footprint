@@ -1,0 +1,25 @@
+{
+  "name": "onepage_carbon-footprint",
+  "version": "1.0.0",
+  "description": "",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "live-server --port=5173 . --open=index.html"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/wagnerrosa/onepage_carbon-footprint.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/wagnerrosa/onepage_carbon-footprint/issues"
+  },
+  "homepage": "https://github.com/wagnerrosa/onepage_carbon-footprint#readme",
+  "devDependencies": {
+    "live-server": "^1.2.2"
+  }
+}
