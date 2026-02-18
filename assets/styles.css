@@ -1,14 +1,21 @@
 *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
 
 :root {
+  /* --- Cores Neutras (Mantidas) --- */
   --paper: #F4F3EF;
   --charcoal: #2A2A28;
-  --ink: #111110;
-  --moss: #2D4A3E;
-  --moss-mid: #3D6356;
-  --moss-light: #5C8A78;
+  --ink: #111110;     /* Mantive o Ink original, mas se quiser mais azulado, use #001D24 */
   --rule: #CACAC4;
   --muted: #7A7A75;
+
+  /* --- NOVAS CORES: PLANTON DARK BLUE --- */
+  /* Substituindo a paleta 'Moss' pela paleta Dark Blue enviada */
+  
+  --moss: #003945;       /* Baseado no 500: Cor primária sólida */
+  --moss-mid: #006072;   /* Baseado no 400: Tom intermediário */
+  --moss-light: #008BA4; /* Baseado no 300: Acentos vibrantes e linhas */
+
+  /* --- Tipografia --- */
   --mono: 'IBM Plex Mono', monospace;
   --serif: 'Lora', serif;
   --sans: 'DM Sans', sans-serif;
@@ -38,17 +45,21 @@ body {
 .hero-bg {
   position: absolute;
   inset: 0;
+  /* ATUALIZAÇÃO DE DESIGN:
+     O gradiente original era esverdeado (10,15,13).
+     Ajustei para a base do Dark Blue 800 (R:0, G:29, B:36) para harmonizar.
+  */
   background-image:
     linear-gradient(90deg,
-      rgba(10,15,13,0.92) 0%,
-      rgba(10,15,13,0.88) 25%,
-      rgba(10,15,13,0.80) 45%,
-      rgba(10,15,13,0.65) 60%,
-      rgba(10,15,13,0.45) 75%,
-      rgba(10,15,13,0.25) 90%,
-      rgba(10,15,13,0.15) 100%
+      rgba(0,29,36,0.95) 0%,
+      rgba(0,29,36,0.90) 25%,
+      rgba(0,29,36,0.82) 45%,
+      rgba(0,29,36,0.65) 60%,
+      rgba(0,29,36,0.45) 75%,
+      rgba(0,29,36,0.25) 90%,
+      rgba(0,29,36,0.15) 100%
     ),
-    url("/assets/img-fibra.jpg");
+    url("/assets/img-fibra.jpg"); /* Certifique-se que esta imagem existe */
   background-size: 100% 100%, cover;
   background-position: center, right center;
   background-repeat: no-repeat, no-repeat;
@@ -67,7 +78,8 @@ body {
   content: '';
   position: absolute;
   inset: 0;
-  background: rgba(45,74,62,0.08);
+  /* Ajustado de verde para um tom azulado suave */
+  background: rgba(0, 96, 114, 0.08);
 }
 
 .hero-accent {
@@ -107,7 +119,6 @@ body {
   display: block;
 }
 
-/* Identificação institucional discreta no Hero */
 .hero-entity {
   font-family: var(--mono);
   font-size: 0.62rem;
@@ -135,7 +146,7 @@ body {
   font-size: 0.7rem;
   letter-spacing: 0.18em;
   text-transform: uppercase;
-  color: var(--moss-light);
+  color: var(--moss-light); /* Agora Azul Claro (300) */
   margin-bottom: 2rem;
   display: flex;
   align-items: center;
@@ -176,7 +187,7 @@ body {
   color: rgba(240,237,234,0.55);
   max-width: 560px;
   line-height: 1.8;
-  border-left: 2px solid var(--moss);
+  border-left: 2px solid var(--moss); /* Agora Azul Escuro (500) */
   padding-left: 1.2rem;
 }
 
@@ -251,7 +262,7 @@ body {
 
 /* ─── SEÇÃO 2: O DADO ─────────────────────────────────── */
 .data-section {
-  background: var(--moss);
+  background: var(--moss); /* Fundo Azul Escuro */
   color: #F0EDEA;
   padding: 0;
 }
@@ -374,7 +385,7 @@ body {
 }
 
 .context-text p strong {
-  color: var(--moss);
+  color: var(--moss); /* Texto destacado agora em Azul Escuro */
   font-weight: 500;
 }
 
@@ -399,7 +410,7 @@ body {
   gap: 0.3rem;
   padding: 1rem 1.2rem;
   background: var(--paper);
-  border-left: 3px solid var(--moss);
+  border-left: 3px solid var(--moss); /* Borda Azul Escuro */
   margin-bottom: 0.8rem;
   position: relative;
 }
@@ -409,7 +420,7 @@ body {
   font-size: 0.6rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
-  color: var(--moss-light);
+  color: var(--moss-light); /* Texto Azul Claro */
 }
 
 .flow-step-name {
@@ -429,6 +440,14 @@ body {
   font-size: 0.9rem;
   margin: 0.2rem 0;
   letter-spacing: 0.1em;
+}
+
+/* Caso específico inline no HTML original que precisava de override */
+.flow-step[style*="border-left-color"] {
+    border-left-color: var(--moss-light) !important; 
+}
+.flow-arrow[style*="color: var(--moss)"] {
+    color: var(--moss) !important;
 }
 
 .flow-note {
@@ -583,12 +602,12 @@ body {
 }
 
 .datasheet-table tr:hover td {
-  background: rgba(45,74,62,0.04);
+  background: rgba(0, 57, 69, 0.04); /* Ajuste sutil do hover para tom azulado */
 }
 
 /* ─── FOOTER ─────────────────────────────────── */
 footer {
-  background: var(--ink);
+  background: var(--moss);
   padding: 3.5rem 7vw;
 }
 
