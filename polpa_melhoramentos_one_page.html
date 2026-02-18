@@ -1,0 +1,923 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Fator de Emissão de Carbono — Polpa Melhoramentos</title>
+<link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+  *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+
+  :root {
+    --paper: #F4F3EF;
+    --charcoal: #2A2A28;
+    --ink: #111110;
+    --moss: #2D4A3E;
+    --moss-mid: #3D6356;
+    --moss-light: #5C8A78;
+    --rule: #CACAC4;
+    --muted: #7A7A75;
+    --mono: 'IBM Plex Mono', monospace;
+    --serif: 'Lora', serif;
+    --sans: 'DM Sans', sans-serif;
+  }
+
+  html { scroll-behavior: smooth; }
+
+  body {
+    background: var(--paper);
+    color: var(--charcoal);
+    font-family: var(--sans);
+    font-size: 16px;
+    line-height: 1.7;
+    -webkit-font-smoothing: antialiased;
+  }
+
+  /* ─── HEADER / HERO ─────────────────────────────────── */
+  .hero {
+    position: relative;
+    min-height: 92vh;
+    display: grid;
+    grid-template-rows: 1fr auto;
+    overflow: hidden;
+    background: var(--ink);
+  }
+
+  .hero-bg {
+    position: absolute;
+    inset: 0;
+    background: linear-gradient(160deg, #1a2e27 0%, #0d1a14 45%, #0a0f0d 100%);
+    z-index: 0;
+  }
+
+  /* Grain texture overlay */
+  .hero-bg::after {
+    content: '';
+    position: absolute;
+    inset: 0;
+    background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 256 256' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+    opacity: 0.6;
+  }
+
+  /* Decorative diagonal accent */
+  .hero-accent {
+    position: absolute;
+    top: 0;
+    right: 0;
+    width: 38%;
+    height: 100%;
+    background: linear-gradient(135deg, transparent 40%, rgba(45,74,62,0.18) 100%);
+    border-left: 1px solid rgba(92,138,120,0.12);
+    z-index: 1;
+  }
+
+  .hero-content {
+    position: relative;
+    z-index: 2;
+    display: flex;
+    flex-direction: column;
+    justify-content: flex-end;
+    padding: 8rem 7vw 5rem;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+  }
+
+  .hero-tag {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--moss-light);
+    margin-bottom: 2rem;
+    display: flex;
+    align-items: center;
+    gap: 1rem;
+  }
+
+  .hero-tag::before {
+    content: '';
+    display: block;
+    width: 2rem;
+    height: 1px;
+    background: var(--moss-light);
+  }
+
+  .hero h1 {
+    font-family: var(--serif);
+    font-size: clamp(2.4rem, 5.5vw, 4.2rem);
+    font-weight: 500;
+    line-height: 1.15;
+    color: #F0EDEA;
+    max-width: 740px;
+    margin-bottom: 1.5rem;
+    letter-spacing: -0.02em;
+  }
+
+  .hero-lead {
+    font-family: var(--sans);
+    font-size: clamp(0.95rem, 1.5vw, 1.05rem);
+    font-weight: 300;
+    color: rgba(240,237,234,0.65);
+    max-width: 520px;
+    margin-bottom: 2.5rem;
+    letter-spacing: 0.01em;
+  }
+
+  .hero-intro {
+    font-size: 0.95rem;
+    color: rgba(240,237,234,0.55);
+    max-width: 560px;
+    line-height: 1.8;
+    border-left: 2px solid var(--moss);
+    padding-left: 1.2rem;
+  }
+
+  .hero-footer {
+    position: relative;
+    z-index: 2;
+    padding: 2rem 7vw;
+    max-width: 1200px;
+    margin: 0 auto;
+    width: 100%;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    border-top: 1px solid rgba(255,255,255,0.07);
+  }
+
+  .hero-footer-label {
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.12em;
+    color: rgba(240,237,234,0.3);
+    text-transform: uppercase;
+  }
+
+  .hero-scroll {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.14em;
+    color: rgba(240,237,234,0.3);
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.6rem;
+  }
+
+  .hero-scroll::after {
+    content: '↓';
+    font-size: 0.8rem;
+  }
+
+  /* ─── LAYOUT SHARED ─────────────────────────────────── */
+  .section {
+    padding: 6rem 7vw;
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .divider {
+    width: 100%;
+    height: 1px;
+    background: var(--rule);
+    max-width: 1200px;
+    margin: 0 auto;
+  }
+
+  .section-label {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 3rem;
+    display: flex;
+    align-items: center;
+    gap: 0.8rem;
+  }
+
+  .section-label::before {
+    content: attr(data-index);
+    color: var(--moss-light);
+  }
+
+  /* ─── SEÇÃO 2: O DADO ─────────────────────────────────── */
+  .data-section {
+    background: var(--moss);
+    color: #F0EDEA;
+    padding: 0;
+  }
+
+  .data-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 7vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    align-items: center;
+  }
+
+  .data-number-block {
+    display: flex;
+    flex-direction: column;
+    gap: 0.5rem;
+  }
+
+  .data-prefix {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.2em;
+    text-transform: uppercase;
+    color: rgba(240,237,234,0.45);
+    margin-bottom: 0.8rem;
+  }
+
+  .data-figure {
+    font-family: var(--mono);
+    font-size: clamp(3.5rem, 8vw, 6.5rem);
+    font-weight: 500;
+    letter-spacing: -0.03em;
+    color: #F0EDEA;
+    line-height: 1;
+  }
+
+  .data-unit {
+    font-family: var(--mono);
+    font-size: clamp(0.85rem, 1.5vw, 1rem);
+    color: rgba(240,237,234,0.55);
+    letter-spacing: 0.05em;
+    margin-top: 0.5rem;
+  }
+
+  .data-description {
+    border-top: 1px solid rgba(240,237,234,0.15);
+    margin-top: 2rem;
+    padding-top: 2rem;
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+  }
+
+  .data-description p {
+    font-size: 0.85rem;
+    color: rgba(240,237,234,0.5);
+    line-height: 1.7;
+  }
+
+  .data-context {
+    padding: 2.5rem;
+    background: rgba(0,0,0,0.2);
+    border: 1px solid rgba(240,237,234,0.1);
+  }
+
+  .data-context h3 {
+    font-family: var(--serif);
+    font-size: 1.15rem;
+    font-weight: 400;
+    color: #F0EDEA;
+    margin-bottom: 1.2rem;
+  }
+
+  .data-context p {
+    font-size: 0.9rem;
+    color: rgba(240,237,234,0.65);
+    line-height: 1.8;
+  }
+
+  .scope-tag {
+    display: inline-block;
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    background: rgba(240,237,234,0.1);
+    border: 1px solid rgba(240,237,234,0.2);
+    color: rgba(240,237,234,0.7);
+    padding: 0.3rem 0.7rem;
+    margin-top: 1.2rem;
+    margin-right: 0.4rem;
+  }
+
+  /* ─── SEÇÃO 3: CONTEXTO E APLICAÇÃO ─────────────────────── */
+  .context-grid {
+    display: grid;
+    grid-template-columns: 1.1fr 0.9fr;
+    gap: 5rem;
+    align-items: start;
+    margin-top: 1rem;
+  }
+
+  .context-text h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+    margin-bottom: 1.8rem;
+    letter-spacing: -0.02em;
+  }
+
+  .context-text p {
+    font-size: 0.95rem;
+    color: #4A4A46;
+    line-height: 1.85;
+    margin-bottom: 1.2rem;
+  }
+
+  .context-text p strong {
+    color: var(--moss);
+    font-weight: 500;
+  }
+
+  /* Diagrama de fluxo */
+  .flow-diagram {
+    background: #EEEDE8;
+    padding: 2.5rem;
+    position: relative;
+  }
+
+  .flow-title {
+    font-family: var(--mono);
+    font-size: 0.62rem;
+    letter-spacing: 0.18em;
+    text-transform: uppercase;
+    color: var(--muted);
+    margin-bottom: 2rem;
+  }
+
+  .flow-step {
+    display: flex;
+    flex-direction: column;
+    gap: 0.3rem;
+    padding: 1rem 1.2rem;
+    background: var(--paper);
+    border-left: 3px solid var(--moss);
+    margin-bottom: 0.8rem;
+    position: relative;
+  }
+
+  .flow-step-label {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--moss-light);
+  }
+
+  .flow-step-name {
+    font-size: 0.85rem;
+    font-weight: 500;
+    color: var(--ink);
+  }
+
+  .flow-step-sub {
+    font-size: 0.78rem;
+    color: var(--muted);
+  }
+
+  .flow-arrow {
+    text-align: center;
+    color: var(--muted);
+    font-size: 0.9rem;
+    margin: 0.2rem 0;
+    letter-spacing: 0.1em;
+  }
+
+  .flow-note {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    color: var(--muted);
+    margin-top: 1.5rem;
+    padding-top: 1rem;
+    border-top: 1px solid var(--rule);
+    line-height: 1.6;
+  }
+
+  /* ─── SEÇÃO 4: ESCOPO E FRONTEIRAS ─────────────────────── */
+  .scope-section {
+    background: #EDECEA;
+  }
+
+  .scope-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 6rem 7vw;
+  }
+
+  .scope-header {
+    display: grid;
+    grid-template-columns: 1fr 1fr;
+    gap: 4rem;
+    margin-bottom: 4rem;
+    align-items: end;
+  }
+
+  .scope-header h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.6rem, 3vw, 2.2rem);
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+  }
+
+  .scope-header p {
+    font-size: 0.9rem;
+    color: #4A4A46;
+    line-height: 1.85;
+  }
+
+  .scope-items {
+    display: grid;
+    grid-template-columns: repeat(4, 1fr);
+    gap: 0;
+    border-top: 1px solid var(--rule);
+  }
+
+  .scope-item {
+    padding: 2.5rem 2rem 2.5rem 0;
+    border-right: 1px solid var(--rule);
+  }
+
+  .scope-item:last-child {
+    border-right: none;
+    padding-right: 0;
+    padding-left: 2rem;
+  }
+
+  .scope-item:not(:first-child) {
+    padding-left: 2rem;
+  }
+
+  .scope-item-index {
+    font-family: var(--mono);
+    font-size: 0.6rem;
+    letter-spacing: 0.18em;
+    color: var(--moss-light);
+    margin-bottom: 1rem;
+    display: block;
+  }
+
+  .scope-item h4 {
+    font-family: var(--sans);
+    font-size: 0.8rem;
+    font-weight: 500;
+    color: var(--ink);
+    text-transform: uppercase;
+    letter-spacing: 0.06em;
+    margin-bottom: 0.6rem;
+  }
+
+  .scope-item p {
+    font-size: 0.85rem;
+    color: #5A5A56;
+    line-height: 1.7;
+  }
+
+  /* ─── SEÇÃO 5: DATASHEET ─────────────────────────────────── */
+  .datasheet-grid {
+    display: grid;
+    grid-template-columns: 0.4fr 1fr;
+    gap: 5rem;
+    align-items: start;
+    margin-top: 1rem;
+  }
+
+  .datasheet-left h2 {
+    font-family: var(--serif);
+    font-size: clamp(1.5rem, 2.5vw, 1.9rem);
+    font-weight: 500;
+    color: var(--ink);
+    line-height: 1.3;
+    letter-spacing: -0.02em;
+    margin-bottom: 1.2rem;
+  }
+
+  .datasheet-left p {
+    font-size: 0.85rem;
+    color: var(--muted);
+    line-height: 1.8;
+  }
+
+  .datasheet-table {
+    width: 100%;
+    border-collapse: collapse;
+  }
+
+  .datasheet-table tr {
+    border-bottom: 1px solid var(--rule);
+  }
+
+  .datasheet-table tr:first-child {
+    border-top: 1px solid var(--rule);
+  }
+
+  .datasheet-table td {
+    padding: 1.1rem 0.8rem;
+    vertical-align: top;
+  }
+
+  .datasheet-table td:first-child {
+    font-family: var(--mono);
+    font-size: 0.65rem;
+    letter-spacing: 0.12em;
+    text-transform: uppercase;
+    color: var(--muted);
+    width: 38%;
+    padding-right: 2rem;
+  }
+
+  .datasheet-table td:last-child {
+    font-family: var(--mono);
+    font-size: 0.8rem;
+    color: var(--charcoal);
+    font-weight: 400;
+  }
+
+  .datasheet-table tr:hover td {
+    background: rgba(45,74,62,0.04);
+  }
+
+  /* ─── FOOTER ─────────────────────────────────── */
+  footer {
+    background: var(--ink);
+    padding: 3.5rem 7vw;
+  }
+
+  .footer-inner {
+    max-width: 1200px;
+    margin: 0 auto;
+    display: grid;
+    grid-template-columns: 1fr auto;
+    gap: 2rem;
+    align-items: center;
+  }
+
+  .footer-brands {
+    display: flex;
+    align-items: center;
+    gap: 2.5rem;
+    margin-bottom: 1.5rem;
+  }
+
+  .brand-name {
+    font-family: var(--serif);
+    font-size: 1rem;
+    font-weight: 600;
+    color: rgba(240,237,234,0.8);
+    letter-spacing: 0.02em;
+  }
+
+  .brand-sep {
+    width: 1px;
+    height: 1.2rem;
+    background: rgba(240,237,234,0.2);
+  }
+
+  .footer-disclaimer {
+    font-size: 0.75rem;
+    color: rgba(240,237,234,0.3);
+    line-height: 1.7;
+    max-width: 480px;
+  }
+
+  .footer-link {
+    font-family: var(--mono);
+    font-size: 0.7rem;
+    letter-spacing: 0.1em;
+    color: var(--moss-light);
+    text-decoration: none;
+    text-transform: uppercase;
+    display: flex;
+    align-items: center;
+    gap: 0.5rem;
+  }
+
+  .footer-link::after {
+    content: '↗';
+    font-size: 0.75rem;
+  }
+
+  .footer-link:hover {
+    color: #F0EDEA;
+  }
+
+  /* ─── RESPONSIVIDADE ─────────────────────────────────── */
+  @media (max-width: 900px) {
+    .data-inner,
+    .context-grid,
+    .scope-header,
+    .datasheet-grid {
+      grid-template-columns: 1fr;
+      gap: 2.5rem;
+    }
+
+    .scope-items {
+      grid-template-columns: repeat(2, 1fr);
+    }
+
+    .scope-item {
+      border-bottom: 1px solid var(--rule);
+      padding-bottom: 2rem;
+    }
+
+    .footer-inner {
+      grid-template-columns: 1fr;
+    }
+
+    .hero-content {
+      padding: 5rem 5vw 3rem;
+    }
+  }
+
+  @media (max-width: 600px) {
+    .scope-items {
+      grid-template-columns: 1fr;
+    }
+
+    .section {
+      padding: 4rem 5vw;
+    }
+  }
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════════════════════════════════════════
+     SEÇÃO 1 — HEADER EDITORIAL / HERO
+     ═══════════════════════════════════════════════════════ -->
+<header class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-accent"></div>
+
+  <div class="hero-content">
+    <span class="hero-tag">Relatório Técnico &nbsp;·&nbsp; 2024 &nbsp;·&nbsp; Estudo de Ciclo de Vida</span>
+
+    <h1>Fator de Emissão de Carbono:<br>Polpa Moldada Melhoramentos</h1>
+
+    <p class="hero-lead">
+      Estudo de Ciclo de Vida (ACV) para mensuração de impacto e contabilização de emissões de Escopo 3.
+    </p>
+
+    <p class="hero-intro">
+      A Melhoramentos, em parceria com a Planton, conduziu um estudo para determinar a pegada de carbono da embalagem de polpa moldada produzida pela empresa. O estudo garante transparência e alinhamento às normas internacionais ISO 14067 e GHG Protocol, fornecendo dados primários para uso em inventários de emissões de clientes.
+    </p>
+  </div>
+
+  <div class="hero-footer">
+    <span class="hero-footer-label">Melhoramentos &nbsp;×&nbsp; Planton</span>
+    <span class="hero-scroll">Continuar lendo</span>
+  </div>
+</header>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SEÇÃO 2 — O DADO
+     ═══════════════════════════════════════════════════════ -->
+<section class="data-section">
+  <div class="data-inner">
+
+    <div class="data-number-block">
+      <span class="data-prefix">Resultado do Estudo &nbsp;·&nbsp; Fator de Emissão Específico</span>
+
+      <div class="data-figure">0,04864</div>
+      <div class="data-unit">kgCO₂e / kg de polpa</div>
+
+      <div class="data-description">
+        <p>Unidade funcional: 1 kg de polpa produzida pela Melhoramentos.</p>
+        <p>Fronteira do sistema: Cradle-to-Gate (da extração da matéria-prima até o portão da fábrica).</p>
+        <p>Base de dados operacionais: anos de 2023 e 2024.</p>
+      </div>
+    </div>
+
+    <div class="data-context">
+      <h3>Aplicação no Inventário do Cliente</h3>
+      <p>
+        Este fator de emissão específico pode ser utilizado por empresas clientes da Melhoramentos para fins de contabilização de emissões no Escopo 3, especialmente na Categoria 1 — Bens e Serviços Comprados, conforme as diretrizes do GHG Protocol.
+      </p>
+      <p style="margin-top: 1rem">
+        A adoção de um fator primário — calculado a partir dos dados reais do processo produtivo — em substituição a fatores genéricos de mercado resulta em maior precisão e credibilidade no reporte de emissões.
+      </p>
+      <div>
+        <span class="scope-tag">GHG Protocol</span>
+        <span class="scope-tag">Escopo 3 — Cat. 1</span>
+        <span class="scope-tag">ISO 14067</span>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<div class="divider"></div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SEÇÃO 3 — CONTEXTO E APLICAÇÃO (NARRATIVA)
+     ═══════════════════════════════════════════════════════ -->
+<section class="section">
+  <span class="section-label" data-index="01">Contexto e Aplicação</span>
+
+  <div class="context-grid">
+
+    <div class="context-text">
+      <h2>Da origem da polpa ao inventário do cliente</h2>
+
+      <p>
+        Como parte do estudo de ciclo de vida da embalagem de polpa moldada, a Melhoramentos determinou o fator de emissão de carbono específico da polpa que produz. Este fator integra a análise de impacto ambiental da embalagem como um todo, rastreando as emissões desde a origem da matéria-prima.
+      </p>
+
+      <p>
+        O dado foi projetado para ser diretamente utilizável em inventários corporativos de emissões. Clientes que adquirem polpa da Melhoramentos podem aplicar este fator para quantificar as emissões associadas à compra desse insumo, atendendo às exigências de reporte no <strong>Escopo 3 — Categoria 1 (Bens e Serviços Comprados)</strong> do GHG Protocol.
+      </p>
+
+      <p>
+        A transparência na cadeia de valor é um requisito crescente de reguladores, investidores e parceiros comerciais. Disponibilizar um fator de emissão primário, auditável e alinhado a normas internacionais é parte do compromisso da Melhoramentos com a descarbonização do setor de embalagens.
+      </p>
+    </div>
+
+    <div>
+      <div class="flow-diagram">
+        <div class="flow-title">Fluxo do Sistema — Cradle to Gate</div>
+
+        <div class="flow-step">
+          <span class="flow-step-label">Origem</span>
+          <span class="flow-step-name">Floresta de Eucalipto</span>
+          <span class="flow-step-sub">Extração e processamento da madeira</span>
+        </div>
+
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-step">
+          <span class="flow-step-label">Processo</span>
+          <span class="flow-step-name">Produção da Polpa — TGW</span>
+          <span class="flow-step-sub">Polpa não branqueada · Energia com I-REC</span>
+        </div>
+
+        <div class="flow-arrow">↓</div>
+
+        <div class="flow-step" style="border-left-color: var(--moss-light);">
+          <span class="flow-step-label">Fronteira do sistema — Gate</span>
+          <span class="flow-step-name">Saída da Fábrica Melhoramentos</span>
+          <span class="flow-step-sub">0,04864 kgCO₂e / kg</span>
+        </div>
+
+        <div class="flow-arrow" style="color: var(--moss);">↓</div>
+
+        <div class="flow-step" style="border-left-color: #CACAC4; background: #E8E7E2;">
+          <span class="flow-step-label">Aplicação pelo Cliente</span>
+          <span class="flow-step-name">Inventário de Emissões</span>
+          <span class="flow-step-sub">Escopo 3 — Categoria 1 (GHG Protocol)</span>
+        </div>
+
+        <p class="flow-note">
+          O transporte ao cliente e os processos subsequentes de conversão não integram o escopo deste estudo.
+        </p>
+      </div>
+    </div>
+
+  </div>
+</section>
+
+
+<div class="divider"></div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SEÇÃO 4 — ESCOPO E FRONTEIRAS DO SISTEMA
+     ═══════════════════════════════════════════════════════ -->
+<div class="scope-section">
+  <div class="scope-inner">
+
+    <span class="section-label" data-index="02">Escopo e Fronteiras do Sistema</span>
+
+    <div class="scope-header">
+      <h2>O que está dentro<br>do Cradle-to-Gate</h2>
+      <p>
+        O fator de emissão da polpa Melhoramentos foi calculado considerando o escopo <em>cradle to gate</em>: desde a extração e processamento das matérias-primas até a produção da polpa na unidade produtiva, imediatamente antes da etapa de transporte ao cliente ou conversão em produto final.
+      </p>
+    </div>
+
+    <div class="scope-items">
+
+      <div class="scope-item">
+        <span class="scope-item-index">01 &nbsp;·&nbsp; Início</span>
+        <h4>Matéria-Prima</h4>
+        <p>Extração e processamento de madeira de Eucalipto. Ponto de partida do ciclo de vida considerado no estudo.</p>
+      </div>
+
+      <div class="scope-item">
+        <span class="scope-item-index">02 &nbsp;·&nbsp; Processo</span>
+        <h4>Produção — TGW</h4>
+        <p>Produção da polpa pelo método Thermo Groundwood (TGW), considerando polpa não branqueada na unidade produtiva.</p>
+      </div>
+
+      <div class="scope-item">
+        <span class="scope-item-index">03 &nbsp;·&nbsp; Energia</span>
+        <h4>Eletricidade I-REC</h4>
+        <p>O consumo de energia elétrica utiliza certificação I-REC, resultando em emissões associadas à eletricidade iguais a zero.</p>
+      </div>
+
+      <div class="scope-item">
+        <span class="scope-item-index">04 &nbsp;·&nbsp; Fim</span>
+        <h4>Portão da Fábrica</h4>
+        <p>A fronteira encerra-se no portão da fábrica. Transporte ao cliente e conversão em produto final estão fora do escopo.</p>
+      </div>
+
+    </div>
+
+  </div>
+</div>
+
+
+<div class="divider"></div>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     SEÇÃO 5 — DATASHEET METODOLÓGICO
+     ═══════════════════════════════════════════════════════ -->
+<section class="section">
+  <span class="section-label" data-index="03">Datasheet Metodológico</span>
+
+  <div class="datasheet-grid">
+
+    <div class="datasheet-left">
+      <h2>Especificações técnicas do estudo</h2>
+      <p>
+        Parâmetros metodológicos, normas aplicadas e fontes de dados que fundamentam o cálculo do fator de emissão. Toda a metodologia é auditável e alinhada às melhores práticas internacionais de quantificação de pegada de carbono de produtos.
+      </p>
+    </div>
+
+    <table class="datasheet-table">
+      <tbody>
+        <tr>
+          <td>Norma Principal</td>
+          <td>ISO 14067:2018 — Pegada de Carbono de Produtos</td>
+        </tr>
+        <tr>
+          <td>Protocolo de Reporte</td>
+          <td>GHG Protocol — Corporate Value Chain (Scope 3)</td>
+        </tr>
+        <tr>
+          <td>Abordagem de Cálculo</td>
+          <td>Cradle-to-Gate</td>
+        </tr>
+        <tr>
+          <td>Unidade Funcional</td>
+          <td>1 kg de polpa produzida pela Melhoramentos</td>
+        </tr>
+        <tr>
+          <td>Dados Primários</td>
+          <td>Fornecidos pela Melhoramentos — anos operacionais 2023 e 2024</td>
+        </tr>
+        <tr>
+          <td>Base Secundária</td>
+          <td>Ecoinvent versão 3.10</td>
+        </tr>
+        <tr>
+          <td>Processo Produtivo</td>
+          <td>TGW — Thermo Groundwood (polpa não branqueada)</td>
+        </tr>
+        <tr>
+          <td>Certificação Energética</td>
+          <td>I-REC — Emissões de eletricidade = 0 kgCO₂e</td>
+        </tr>
+        <tr>
+          <td>Parceiro Técnico</td>
+          <td>Planton</td>
+        </tr>
+        <tr>
+          <td>Resultado</td>
+          <td>0,04864 kgCO₂e / kg de polpa</td>
+        </tr>
+      </tbody>
+    </table>
+
+  </div>
+</section>
+
+
+<!-- ═══════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════ -->
+<footer>
+  <div class="footer-inner">
+    <div>
+      <div class="footer-brands">
+        <span class="brand-name">Melhoramentos</span>
+        <div class="brand-sep"></div>
+        <span class="brand-name" style="font-weight:400; font-family: var(--sans); font-size:0.85rem; letter-spacing:0.06em;">× Planton</span>
+      </div>
+      <p class="footer-disclaimer">
+        Os dados apresentados referem-se ao estudo conduzido com base nos anos operacionais de 2023 e 2024. O fator de emissão foi determinado seguindo as normas ISO 14067 e GHG Protocol. Para fins de reporte, recomenda-se consultar o relatório técnico completo.
+      </p>
+    </div>
+
+    <a href="#" class="footer-link">Baixar Relatório Completo (PDF)</a>
+  </div>
+</footer>
+
+</body>
+</html>
