@@ -1,354 +1,422 @@
 <!DOCTYPE html>
 <html lang="pt-BR">
+
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Fator de Emissão de Carbono - Polpa Melhoramentos - Planton</title>
-  <meta name="description" content="Relatório técnico de Estudo de Ciclo de Vida (ACV) para determinação do fator de emissão da polpa moldada da Melhoramentos, conduzido pela Planton.">
-  <link href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap" rel="stylesheet">
+  <meta name="description"
+    content="Relatório técnico de Estudo de Ciclo de Vida (ACV) para determinação do fator de emissão da polpa moldada da Melhoramentos, conduzido pela Planton.">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Lora:wght@400;500;600&family=DM+Sans:wght@300;400;500&family=IBM+Plex+Mono:wght@400;500&display=swap"
+    rel="stylesheet">
   <link rel="stylesheet" href="assets/styles.css">
 
   <!-- Open Graph -->
   <meta property="og:type" content="article">
   <meta property="og:title" content="Fator de Emissão da Polpa Moldada">
-  <meta property="og:description" content="Estudo técnico conduzido pela Planton para determinação do fator de emissão da polpa moldada.">
+  <meta property="og:description"
+    content="Estudo técnico conduzido pela Planton para determinação do fator de emissão da polpa moldada.">
   <meta property="og:url" content="https://sitedaplanton.eco.br/polpa-moldada">
   <meta property="og:image" content="https://sitedaplanton.eco.br/assets/og-polpa.jpg">
   <meta property="og:site_name" content="Planton - Soluções Sustentáveis">
 
   <!-- Favicon -->
-  <link rel="icon" href="https://www.planton.eco.br/wp-content/uploads/2024/11/cropped-logo-planton-32x32.png" sizes="32x32">
-  <link rel="apple-touch-icon" href="https://www.planton.eco.br/wp-content/uploads/2024/11/cropped-logo-planton-180x180.png">
+  <link rel="icon" href="https://www.planton.eco.br/wp-content/uploads/2024/11/cropped-logo-planton-32x32.png"
+    sizes="32x32">
+  <link rel="apple-touch-icon"
+    href="https://www.planton.eco.br/wp-content/uploads/2024/11/cropped-logo-planton-180x180.png">
 </head>
-<body>
 
-<!-- ═══════════════════════════════════════════════════════
+<body>
+  <script>
+    document.addEventListener("DOMContentLoaded", function () {
+
+      const el = document.getElementById("emission-value");
+      const tags = document.querySelectorAll(".scope-tag");
+      const section = document.querySelector(".data-section");
+
+      const target = 0.04864;
+      const duration = 1300;
+      const decimals = 5;
+
+      let animated = false;
+
+      function animateValue() {
+        const start = performance.now();
+
+        el.classList.add("is-visible");
+
+        function update(now) {
+          const progress = Math.min((now - start) / duration, 1);
+          const eased = 1 - Math.pow(1 - progress, 3); // easeOutCubic
+          const current = target * eased;
+
+          el.textContent = current
+            .toFixed(decimals)
+            .replace(".", ",");
+
+          if (progress < 1) {
+            requestAnimationFrame(update);
+          } else {
+            animateTags();
+          }
+        }
+
+        requestAnimationFrame(update);
+      }
+
+      function animateTags() {
+        tags.forEach((tag, index) => {
+          setTimeout(() => {
+            tag.classList.add("is-visible");
+          }, index * 120);
+        });
+      }
+
+      const observer = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting && !animated) {
+              animateValue();
+              animated = true;
+            }
+          });
+        },
+        { threshold: 0.5 }
+      );
+
+      observer.observe(section);
+
+      const animatedLabels = document.querySelectorAll(".animate-on-scroll");
+
+      const labelObserver = new IntersectionObserver(
+        entries => {
+          entries.forEach(entry => {
+            if (entry.isIntersecting) {
+              entry.target.classList.add("is-visible");
+            }
+          });
+        },
+        { threshold: 0.4 }
+      );
+
+      animatedLabels.forEach(label => {
+        labelObserver.observe(label);
+      });
+    });
+  </script>
+
+  <!-- ═══════════════════════════════════════════════════════
      SEÇÃO 1 — HEADER EDITORIAL / HERO
      ═══════════════════════════════════════════════════════ -->
-<header class="hero">
-  <div class="hero-bg"></div>
-  <div class="hero-accent"></div>
+  <header class="hero">
+    <div class="hero-bg"></div>
 
-  <div class="hero-content">
-    <img class="hero-signature" src="assets/Logo-Planton-branco.png" alt="Planton">
-    <span class="hero-tag">Relatório Técnico &nbsp;·&nbsp; 2024 &nbsp;·&nbsp; Estudo de Pegada de Carbono</span>
-    <img class="hero-company-logo" src="assets/melhoramentos-logo-branco-1.png" alt="Melhoramentos">
-    <h1>Fator de Emissão<br> da Polpa Moldada</h1>
-    
-    <!-- <p class="hero-lead">
+    <div class="hero-content">
+      <img class="hero-signature" src="assets/Logo-Planton-branco.png" alt="Planton">
+      <span class="hero-tag">Relatório Técnico &nbsp;·&nbsp; 2024 &nbsp;·&nbsp; Estudo de Pegada de Carbono</span>
+      <img class="hero-company-logo" src="assets/melhoramentos-logo-branco-1.png" alt="Melhoramentos">
+      <h1>Fator de Emissão<br> da Polpa Moldada</h1>
+
+      <!-- <p class="hero-lead">
       Estudo de Ciclo de Vida para mensuração de emissões de carbono (Escopo 3).
     </p> -->
-    
-    <p class="hero-intro">
-      A Melhoramentos, em parceria com a Planton, conduziu um estudo para determinar a pegada de carbono da embalagem de polpa moldada produzida pela empresa. O estudo garante transparência e alinhamento às normas internacionais ISO 14067 e GHG Protocol, fornecendo dados primários para uso em inventários de emissões de clientes.
-    </p>
-  </div>
 
-  <div class="hero-footer">
-    <span class="hero-footer-label">Melhoramentos &nbsp;×&nbsp; Planton</span>
-    <span class="hero-scroll">Continuar lendo</span>
-  </div>
-</header>
+      <p class="hero-intro">
+        A Melhoramentos, em parceria com a Planton, conduziu um estudo para determinar a pegada de carbono da embalagem
+        de polpa moldada produzida pela empresa. O estudo garante transparência e alinhamento às normas internacionais
+        ISO 14067 e GHG Protocol, fornecendo dados primários para uso em inventários de emissões de clientes.
+      </p>
+    </div>
+
+    <div class="hero-footer">
+      <span class="hero-footer-label">Melhoramentos &nbsp;×&nbsp; Planton</span>
+      <a href="#data-section" class="hero-scroll">Continuar lendo</a>
+    </div>
+  </header>
 
 
-<!-- ═══════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════
      SEÇÃO 2 — O DADO
      ═══════════════════════════════════════════════════════ -->
-<section class="data-section">
-  <div class="data-inner">
+  <section class="data-section" id="data-section">
+    <div class="data-inner">
 
-    <div class="data-number-block">
-      <span class="data-prefix">Resultado do Estudo &nbsp;·&nbsp; Fator de Emissão Específico</span>
+      <div class="data-number-block">
+        <span class="data-prefix">Resultado do Estudo &nbsp;·&nbsp; Fator de Emissão Específico</span>
 
-      <div class="data-figure">0,04864</div>
-      <div class="data-unit">kgCO₂e / kg de polpa</div>
+        <div class="data-figure" id="emission-value">0,04864</div>
+        <div class="data-unit">kgCO₂e / kg de polpa</div>
 
-      <div class="data-description">
-        <p>Unidade funcional: 1 kg de polpa produzida pela Melhoramentos.</p>
-        <p>Fronteira do sistema: Cradle-to-Gate (da extração da matéria-prima até o portão da fábrica).</p>
-        <p>Base de dados primários: Melhoramentos, com base nos anos de 2023 e 2024.</p>
-        <p>Base de dados secundários: Ecoinvent.</p>
+        <div class="data-description">
+          <p>Unidade funcional: 1 kg de polpa produzida pela Melhoramentos.</p>
+          <p>Fronteira do sistema: Cradle-to-Gate (da extração da matéria-prima até o portão da fábrica).</p>
+          <p>Base de dados primários: Melhoramentos, com base nos anos de 2023 e 2024.</p>
+          <p>Base de dados secundários: Ecoinvent.</p>
+        </div>
       </div>
-    </div>
 
-    <div class="data-context">
-      <h3>Aplicação no Inventário do Cliente</h3>
-      <p>
-        Este fator de emissão específico pode ser utilizado por empresas clientes da Melhoramentos para fins de contabilização de emissões no Escopo 3, especialmente na Categoria 1 — Bens e Serviços Comprados, conforme as diretrizes do GHG Protocol.
-      </p>
-      <p style="margin-top: 1rem">
-        A adoção de um fator primário — calculado a partir dos dados reais do processo produtivo — em substituição a fatores genéricos de mercado resulta em maior precisão e credibilidade no reporte de emissões.
-      </p>
-      <div>
-        <span class="scope-tag">GHG Protocol</span>
-        <span class="scope-tag">Escopo 3 — Cat. 1</span>
-        <span class="scope-tag">ISO 14067</span>
+      <div class="data-context">
+        <h3>Aplicação no Inventário do Cliente</h3>
+        <p>
+          Este fator de emissão específico pode ser utilizado por empresas clientes da Melhoramentos para fins de
+          contabilização de emissões no Escopo 3, especialmente na Categoria 1 — Bens e Serviços Comprados, conforme as
+          diretrizes do GHG Protocol.
+        </p>
+        <p style="margin-top: 1rem">
+          A adoção de um fator primário — calculado a partir dos dados reais do processo produtivo — em substituição a
+          fatores genéricos de mercado resulta em maior precisão e credibilidade no reporte de emissões.
+        </p>
+        <div>
+          <span class="scope-tag">GHG Protocol</span>
+          <span class="scope-tag">Escopo 3 — Cat. 1</span>
+          <span class="scope-tag">ISO 14067</span>
+        </div>
       </div>
+
     </div>
-
-  </div>
-</section>
+  </section>
 
 
-<div class="divider"></div>
+  <div class="divider"></div>
 
 
-<!-- ═══════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════
      SEÇÃO 3 — CONTEXTO E APLICAÇÃO (NARRATIVA)
      ═══════════════════════════════════════════════════════ -->
-<section class="section">
-  <span class="section-label" data-index="01">Contexto e Aplicação</span>
+  <section class="section">
+    <span class="section-label animate-on-scroll" data-index="01">Contexto e Aplicação</span>
 
-  <div class="context-grid">
+    <div class="context-grid">
 
-    <div class="context-text">
-      <h2>Da origem da polpa ao inventário do cliente</h2>
+      <div class="context-text">
+        <h2>Da origem da polpa ao inventário do cliente</h2>
 
-      <p>
-        Como parte do estudo de ciclo de vida da embalagem de polpa moldada, a Melhoramentos determinou o fator de emissão de carbono específico da polpa que produz. Este fator integra a análise de impacto ambiental da embalagem como um todo, rastreando as emissões desde a origem da matéria-prima.
-      </p>
-
-      <p>
-        O dado foi projetado para ser diretamente utilizável em inventários corporativos de emissões. Clientes que adquirem polpa da Melhoramentos podem aplicar este fator para quantificar as emissões associadas à compra desse insumo, atendendo às exigências de reporte no <strong>Escopo 3 — Categoria 1 (Bens e Serviços Comprados)</strong> do GHG Protocol.
-      </p>
-
-      <p>
-        A transparência na cadeia de valor é um requisito crescente de reguladores, investidores e parceiros comerciais. Disponibilizar um fator de emissão primário, auditável e alinhado a normas internacionais é parte do compromisso da Melhoramentos com a descarbonização do setor de embalagens.
-      </p>
-    </div>
-
-    <div>
-      <div class="flow-diagram">
-        <div class="flow-title">Fluxo do Sistema — Cradle to Gate</div>
-
-        <div class="flow-step">
-          <span class="flow-step-label">Origem</span>
-          <span class="flow-step-name">Floresta de Eucalipto</span>
-          <span class="flow-step-sub">Extração e processamento da madeira</span>
-        </div>
-
-        <div class="flow-arrow">↓</div>
-
-        <div class="flow-step">
-          <span class="flow-step-label">Processo</span>
-          <span class="flow-step-name">Produção da Polpa — TGW</span>
-          <span class="flow-step-sub">Polpa não branqueada · Energia com I-REC</span>
-        </div>
-
-        <div class="flow-arrow">↓</div>
-
-        <div class="flow-step" style="border-left-color: var(--moss-light);">
-          <span class="flow-step-label">Fronteira do sistema — Gate</span>
-          <span class="flow-step-name">Saída da Fábrica Melhoramentos</span>
-          <span class="flow-step-sub">0,04864 kgCO₂e / kg</span>
-        </div>
-
-        <div class="flow-arrow" style="color: var(--moss);">↓</div>
-
-        <div class="flow-step" style="border-left-color: #CACAC4; background: #E8E7E2;">
-          <span class="flow-step-label">Aplicação pelo Cliente</span>
-          <span class="flow-step-name">Inventário de Emissões</span>
-          <span class="flow-step-sub">Escopo 3 — Categoria 1 (GHG Protocol)</span>
-        </div>
-
-        <p class="flow-note">
-          O transporte ao cliente e os processos subsequentes de conversão não integram o escopo deste estudo.
+        <p>
+          Como parte do estudo de ciclo de vida da embalagem de polpa moldada, a Melhoramentos determinou o fator de
+          emissão de carbono específico da polpa que produz. Este fator integra a análise de impacto ambiental da
+          embalagem como um todo, rastreando as emissões desde a origem da matéria-prima.
         </p>
       </div>
+
     </div>
-
-  </div>
-</section>
+  </section>
 
 
-<div class="divider"></div>
+  <div class="divider"></div>
 
 
-<!-- ═══════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════
      SEÇÃO 4 — ESCOPO E FRONTEIRAS DO SISTEMA
      ═══════════════════════════════════════════════════════ -->
-<div class="scope-section">
-  <div class="scope-inner">
+  <div class="scope-section">
+    <div class="scope-inner">
 
-    <span class="section-label" data-index="02">Escopo e Fronteiras do Sistema</span>
+      <span class="section-label animate-on-scroll" data-index="02">Escopo e Fronteiras do Sistema</span>
 
-    <div class="scope-header">
-      <h2>O que está dentro<br>do Cradle-to-Gate</h2>
-      <p>
-        O fator de emissão da polpa Melhoramentos foi calculado considerando o escopo <em>cradle to gate</em>: desde a extração e processamento das matérias-primas até a produção da polpa na unidade produtiva, imediatamente antes da etapa de transporte ao cliente ou conversão em produto final.
-      </p>
+      <div class="scope-header">
+        <h2>Escopo do Estudo<br>Cradle-to-Gate</h2>
+        <p>
+          O fator de emissão da polpa Melhoramentos foi calculado considerando o escopo <em>cradle to gate</em>: desde a
+          extração e processamento das matérias-primas até a produção da polpa na unidade produtiva, imediatamente antes
+          da etapa de transporte ao cliente ou conversão em produto final.
+        </p>
+      </div>
+
+      <div class="scope-items">
+
+        <div class="scope-item">
+          <span class="scope-item-index">01 &nbsp;·&nbsp; Início</span>
+          <h4>Matéria-Prima</h4>
+          <p>Extração e processamento de madeira de Eucalipto. Ponto de partida do ciclo de vida considerado no estudo.
+          </p>
+        </div>
+
+        <div class="scope-item">
+          <span class="scope-item-index">02 &nbsp;·&nbsp; Processo</span>
+          <h4>Produção — TGW</h4>
+          <p>Produção da polpa pelo método Thermo Groundwood (TGW), considerando polpa não branqueada na unidade
+            produtiva.</p>
+        </div>
+
+        <div class="scope-item">
+          <span class="scope-item-index">03 &nbsp;·&nbsp; Energia</span>
+          <h4>Eletricidade I-REC</h4>
+          <p>O consumo de energia elétrica utiliza certificação I-REC, resultando em emissões associadas à eletricidade
+            iguais a zero.</p>
+        </div>
+
+        <div class="scope-item">
+          <span class="scope-item-index">04 &nbsp;·&nbsp; Fim</span>
+          <h4>Portão da Fábrica</h4>
+          <p>A fronteira encerra-se no portão da fábrica. Transporte ao cliente e conversão em produto final estão fora
+            do escopo.</p>
+        </div>
+
+      </div>
+
     </div>
-
-    <div class="scope-items">
-
-      <div class="scope-item">
-        <span class="scope-item-index">01 &nbsp;·&nbsp; Início</span>
-        <h4>Matéria-Prima</h4>
-        <p>Extração e processamento de madeira de Eucalipto. Ponto de partida do ciclo de vida considerado no estudo.</p>
-      </div>
-
-      <div class="scope-item">
-        <span class="scope-item-index">02 &nbsp;·&nbsp; Processo</span>
-        <h4>Produção — TGW</h4>
-        <p>Produção da polpa pelo método Thermo Groundwood (TGW), considerando polpa não branqueada na unidade produtiva.</p>
-      </div>
-
-      <div class="scope-item">
-        <span class="scope-item-index">03 &nbsp;·&nbsp; Energia</span>
-        <h4>Eletricidade I-REC</h4>
-        <p>O consumo de energia elétrica utiliza certificação I-REC, resultando em emissões associadas à eletricidade iguais a zero.</p>
-      </div>
-
-      <div class="scope-item">
-        <span class="scope-item-index">04 &nbsp;·&nbsp; Fim</span>
-        <h4>Portão da Fábrica</h4>
-        <p>A fronteira encerra-se no portão da fábrica. Transporte ao cliente e conversão em produto final estão fora do escopo.</p>
-      </div>
-
-    </div>
-
   </div>
-</div>
 
 
-<div class="divider"></div>
+  <div class="divider"></div>
 
 
-<!-- ═══════════════════════════════════════════════════════
+  <!-- ═══════════════════════════════════════════════════════
      SEÇÃO 5 — DATASHEET METODOLÓGICO
      ═══════════════════════════════════════════════════════ -->
-<section class="section">
-  <span class="section-label" data-index="03">Datasheet Metodológico</span>
+  <section class="section">
+    <span class="section-label animate-on-scroll" data-index="03">Datasheet Metodológico</span>
 
-  <div class="datasheet-grid">
+    <div class="datasheet-grid">
 
-    <div class="datasheet-left">
-      <h2>Especificações técnicas do estudo</h2>
-      <p>
-        Parâmetros metodológicos, normas aplicadas e fontes de dados que fundamentam o cálculo do fator de emissão. Toda a metodologia é auditável e alinhada às melhores práticas internacionais de quantificação de pegada de carbono de produtos.
-      </p>
-    </div>
-
-    <table class="datasheet-table">
-      <tbody>
-        <tr>
-          <td>Norma Principal</td>
-          <td>ISO 14067:2018 — Pegada de Carbono de Produtos</td>
-        </tr>
-        <tr>
-          <td>Protocolo de Reporte</td>
-          <td>GHG Protocol — Corporate Value Chain (Scope 3)</td>
-        </tr>
-        <tr>
-          <td>Abordagem de Cálculo</td>
-          <td>Cradle-to-Gate</td>
-        </tr>
-        <tr>
-          <td>Unidade Funcional</td>
-          <td>1 kg de polpa produzida pela Melhoramentos</td>
-        </tr>
-        <tr>
-          <td>Dados Primários</td>
-          <td>Fornecidos pela Melhoramentos — anos operacionais 2023 e 2024</td>
-        </tr>
-        <tr>
-          <td>Base Secundária</td>
-          <td>Ecoinvent versão 3.10</td>
-        </tr>
-        <tr>
-          <td>Processo Produtivo</td>
-          <td>TGW — Thermo Groundwood (polpa não branqueada)</td>
-        </tr>
-        <tr>
-          <td>Certificação Energética</td>
-          <td>I-REC — Emissões de eletricidade = 0 kgCO₂e</td>
-        </tr>
-        <tr>
-          <td>Parceiro Técnico</td>
-          <td>Planton</td>
-        </tr>
-        <tr>
-          <td>Resultado</td>
-          <td>0,04864 kgCO₂e / kg de polpa</td>
-        </tr>
-      </tbody>
-    </table>
-
-  </div>
-</section>
-
-
-<section class="section-cta">
-  <div class="cta-grid">
-    <span class="section-label" data-index="04">Parceria Técnica</span>
-
-    <div class="cta-text">
-      <h2>Rigor metodológico para inventários de carbono</h2>
-
-      <p>
-        A metodologia aplicada ao estudo da Melhoramentos garante rastreabilidade e conformidade com a ISO 14067 e GHG Protocol. A Planton atua como braço técnico para empresas que buscam dados auditáveis para seus relatórios de sustentabilidade e gestão de Escopo 3.
-      </p>
-
-      <p class="cta-highlight">
-        Fale com um especialista e inicie o diagnóstico da sua organização.
-      </p>
-
-      <a href="#" class="cta-button">Iniciar diálogo técnico</a>
-    </div>
-  </div>
-</section>
-
-
-<!-- ═══════════════════════════════════════════════════════
-     FOOTER
-     ═══════════════════════════════════════════════════════ -->
-<footer class="footer-modern">
-  <div class="footer-frame">
-    <div class="footer-top">
-      <div class="footer-think">
-        <img class="footer-think-mark" src="assets/think_net_zero.png" alt="Think net zero. Make the difference.">
+      <div class="datasheet-left">
+        <h2>Especificações técnicas do estudo</h2>
+        <p>
+          Parâmetros metodológicos, normas aplicadas e fontes de dados que fundamentam o cálculo do fator de emissão.
+          Toda a metodologia é auditável e alinhada às melhores práticas internacionais de quantificação de pegada de
+          carbono de produtos.
+        </p>
       </div>
 
-      <div class="footer-certifications">
-        <span class="footer-label">Certificações</span>
-        <div class="footer-badges">
-          <img src="assets/ghgprotocol24.avif" alt="GHG Protocol">
-          <img src="assets/certifiedB.png" alt="B Corp">
-          <img src="assets/carbonneutral.avif" alt="Carbon Neutral">
+      <table class="datasheet-table">
+        <tbody>
+          <tr>
+            <td>Norma Principal</td>
+            <td>ISO 14067:2018 — Pegada de Carbono de Produtos</td>
+          </tr>
+          <tr>
+            <td>Protocolo de Reporte</td>
+            <td>GHG Protocol — Corporate Value Chain (Scope 3)</td>
+          </tr>
+          <tr>
+            <td>Abordagem de Cálculo</td>
+            <td>Cradle-to-Gate</td>
+          </tr>
+          <tr>
+            <td>Unidade Funcional</td>
+            <td>1 kg de polpa produzida pela Melhoramentos</td>
+          </tr>
+          <tr>
+            <td>Dados Primários</td>
+            <td>Fornecidos pela Melhoramentos — anos operacionais 2023 e 2024</td>
+          </tr>
+          <tr>
+            <td>Base Secundária</td>
+            <td>Ecoinvent versão 3.10</td>
+          </tr>
+          <tr>
+            <td>Processo Produtivo</td>
+            <td>TGW — Thermo Groundwood (polpa não branqueada)</td>
+          </tr>
+          <tr>
+            <td>Certificação Energética</td>
+            <td>I-REC — Emissões de eletricidade = 0 kgCO₂e</td>
+          </tr>
+          <tr>
+            <td>Parceiro Técnico</td>
+            <td>Planton</td>
+          </tr>
+          <tr>
+            <td>Resultado</td>
+            <td>0,04864 kgCO₂e / kg de polpa</td>
+          </tr>
+        </tbody>
+      </table>
+
+    </div>
+  </section>
+
+
+  <section class="section-cta">
+    <div class="cta-grid">
+      <span class="section-label animate-on-scroll" data-index="04">Parceria Técnica</span>
+      <div class="cta-text">
+        <h2>Rigor metodológico para inventários de carbono</h2>
+
+        <p>
+          A metodologia aplicada ao estudo da Melhoramentos garante rastreabilidade e conformidade com a ISO 14067 e GHG
+          Protocol. A Planton atua como braço técnico para empresas que buscam dados auditáveis para seus relatórios de
+          sustentabilidade e gestão de Escopo 3.
+        </p>
+
+        <p class="cta-highlight">
+          Fale com um especialista e inicie o diagnóstico da sua organização.
+        </p>
+
+        <a href="#" class="cta-button">Iniciar diálogo técnico</a>
+      </div>
+    </div>
+  </section>
+
+
+  <!-- ═══════════════════════════════════════════════════════
+     FOOTER
+     ═══════════════════════════════════════════════════════ -->
+  <footer class="footer-modern">
+    <div class="footer-frame">
+      <div class="footer-top">
+        <div class="footer-think">
+          <img class="footer-think-mark" src="assets/think_net_zero.png" alt="Think net zero. Make the difference.">
+        </div>
+
+        <div class="footer-certifications">
+          <span class="footer-label">Certificações</span>
+          <div class="footer-badges">
+            <img src="assets/ghgprotocol24.avif" alt="GHG Protocol">
+            <img src="assets/certifiedB.png" alt="B Corp">
+            <img src="assets/carbonneutral.avif" alt="Carbon Neutral">
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="footer-middle-wrapper">
-    <div class="footer-frame">
-      <div class="footer-middle">
-        <div class="footer-contact">
+    <div class="footer-middle-wrapper">
+      <div class="footer-frame">
+        <div class="footer-middle">
+          <div class="footer-membership">
+            <span class="footer-label">Membro</span>
+            <img src="assets/membro_caldeira.png" alt="Instituto Caldeira">
+          </div>
+
           <div class="footer-address">
             <p>Instituto Caldeira</p>
             <p>Tv. São José, 455</p>
             <p>Porto Alegre/RS – 90240-200</p>
           </div>
 
-          <div class="footer-membership">
-            <span class="footer-label">Membro</span>
-            <img src="assets/membro_caldeira.png" alt="Instituto Caldeira">
+          <div class="footer-contact-info">
+            <p>
+              Contato por telefone ou WhatsApp: 
+              <a 
+                href="https://wa.me/551982792555?text=Ol%C3%A1%2C%20gostaria%20de%20falar%20com%20um%20especialista%20da%20Planton%20sobre%20invent%C3%A1rio%20de%20carbono." 
+                target="_blank" 
+                rel="noopener noreferrer"
+              >
+                +55 (51) 98279-2555
+              </a>
+              <br>
+              ou pelo e-mail: 
+              <a href="mailto:contato@planton.eco.br">
+                contato@planton.eco.br
+              </a>
+            </p>
           </div>
-        </div>
 
-        <div class="footer-links">
-          <a href="https://lp.planton.eco.br/politica-de-privacidade">Política de Privacidade</a>
-          <a href="https://www.planton.eco.br/quem-somos/">Quem somos</a>
-          <a href="https://www.planton.eco.br/contato/">Contato</a>
+          <div class="footer-links">
+            <a href="https://lp.planton.eco.br/politica-de-privacidade">Política de Privacidade</a>
+            <a href="https://www.planton.eco.br/quem-somos/">Quem somos</a>
+          </div>
         </div>
       </div>
     </div>
-  </div>
 
-  <div class="footer-bottom">
-    <p>© 2026 Planton – Soluções Sustentáveis.</p>
-  </div>
-</footer>
+    <div class="footer-bottom">
+      <p>© 2026 Planton – Soluções Sustentáveis.</p>
+    </div>
+  </footer>
 
 </body>
+
 </html>

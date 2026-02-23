@@ -35,7 +35,7 @@ body {
 /* ─── HEADER / HERO ─────────────────────────────────── */
 .hero {
   position: relative;
-  min-height: 92vh;
+  min-height: 100vh;
   display: grid;
   grid-template-rows: 1fr auto;
   overflow: hidden;
@@ -115,6 +115,12 @@ body {
   .hero-intro {
     color: rgba(255,255,255,0.88);
   }
+
+  .hero-tag {
+    max-width: 280px;
+    line-height: 1.6;
+    flex-wrap: wrap;
+  }
 }
 
 /* ─── AJUSTE HERO DESKTOP ─────────────────────────────────── */
@@ -137,7 +143,7 @@ body {
   object-fit: contain;
   align-self: flex-start;
   opacity: 0.82;
-  margin-bottom: 2.6rem;
+  margin-bottom: 3.5rem;
   display: block;
 }
 
@@ -147,7 +153,7 @@ body {
   max-width: 170px;
   object-fit: contain;
   align-self: flex-start;
-  margin-bottom: 1.1rem;
+  margin-bottom: 1.5rem;
   opacity: 0.9;
   display: block;
 }
@@ -167,8 +173,8 @@ body {
   z-index: 2;
   display: flex;
   flex-direction: column;
-  justify-content: flex-end;
-  padding: 5rem 7vw 4rem;
+  justify-content: center;
+  padding: 3rem 7vw 3rem;
   max-width: 1200px;
   margin: 0 auto;
   width: 100%;
@@ -180,7 +186,7 @@ body {
   letter-spacing: 0.18em;
   text-transform: uppercase;
   color: var(--moss-light); /* Agora Azul Claro (300) */
-  margin-bottom: 2rem;
+  margin-bottom: 2.5rem;
   display: flex;
   align-items: center;
   gap: 1rem;
@@ -201,7 +207,7 @@ body {
   line-height: 1.15;
   color: #F0EDEA;
   max-width: 740px;
-  margin-bottom: 1.5rem;
+  margin-bottom: 2rem;
   letter-spacing: -0.02em;
 }
 
@@ -254,6 +260,13 @@ body {
   display: flex;
   align-items: center;
   gap: 0.6rem;
+  text-decoration: none;
+  cursor: pointer;
+  transition: color 0.2s ease;
+}
+
+.hero-scroll:hover {
+  color: rgba(240,237,234,0.6);
 }
 
 .hero-scroll::after {
@@ -393,10 +406,7 @@ body {
 
 /* ─── SEÇÃO 3: CONTEXTO E APLICAÇÃO ─────────────────────── */
 .context-grid {
-  display: grid;
-  grid-template-columns: 1.1fr 0.9fr;
-  gap: 5rem;
-  align-items: start;
+  display: block;
   margin-top: 1rem;
 }
 
@@ -794,15 +804,19 @@ body {
 .footer-middle {
   padding: 4rem 0 5rem;
   display: grid;
-  grid-template-columns: 1.2fr 0.8fr;
-  gap: 4rem;
+  grid-template-columns: max-content max-content 1fr max-content;
+  gap: 1.5rem;
   align-items: start;
 }
 
-.footer-contact {
-  display: flex;
-  align-items: flex-start;
-  gap: 4rem;
+.footer-contact-info {
+  justify-self: center;
+}
+
+.footer-contact-info p {
+  font-size: 0.85rem;
+  color: rgba(240,237,234,0.7);
+  line-height: 1.8;
 }
 
 .footer-address p {
@@ -835,7 +849,21 @@ body {
   width: fit-content;
 }
 
-.footer-links a:hover {
+.footer-contact-info a {
+  font-family: var(--sans);
+  font-weight: 700;
+  text-decoration: none;
+  color: inherit;
+  background-image: linear-gradient(currentColor, currentColor);
+  background-size: 0% 1px;
+  background-position: 0 100%;
+  background-repeat: no-repeat;
+  transition: background-size 220ms ease;
+  cursor: pointer;
+}
+
+.footer-links a:hover,
+.footer-contact-info a:hover {
   color: rgba(240,237,234,0.95);
   background-size: 100% 1px;
 }
@@ -843,14 +871,17 @@ body {
 .footer-membership {
   display: flex;
   flex-direction: column;
+  align-items: flex-start;
   gap: 0.4rem;
 }
 
 .footer-membership img {
   height: 51px;
   width: auto;
+  max-width: none;
   opacity: 0.85;
   display: block;
+  object-fit: contain;
 }
 
 .footer-bottom {
@@ -927,19 +958,9 @@ body {
 
   .footer-middle {
     grid-template-columns: 1fr;
-    gap: 2rem;
+    gap: 3rem;
     text-align: center;
     justify-items: center;
-  }
-
-  .footer-contact {
-    flex-direction: column;
-    align-items: center;
-    gap: 3rem;
-  }
-
-  .footer-address {
-    text-align: center;
   }
 
   .footer-links {
@@ -971,4 +992,42 @@ body {
     padding-right: 0;
     border-right: none;
   }
+}
+
+/* Animação Número inicial */
+.data-figure {
+  filter: blur(4px);
+  opacity: 0;
+  transition: filter 800ms ease, opacity 800ms ease;
+}
+
+/* Estado visível */
+.data-figure.is-visible {
+  filter: blur(0);
+  opacity: 1;
+}
+
+/* Scope tags animação */
+.scope-tag {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 500ms ease, transform 500ms ease;
+}
+
+.scope-tag.is-visible {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* Classe específica de animação */
+.animate-on-scroll {
+  opacity: 0;
+  transform: translateY(8px);
+  transition: opacity 1000ms ease, transform 1000ms ease;
+  transition-delay: 400ms;
+}
+
+.animate-on-scroll.is-visible {
+  opacity: 1;
+  transform: translateY(0);
 }
