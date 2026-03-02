@@ -16,9 +16,9 @@
   --moss-light: #008BA4; /* Baseado no 300: Acentos vibrantes e linhas */
 
   /* --- Tipografia --- */
-  --mono: 'IBM Plex Mono', monospace;
+  --mono: 'Geist Mono', monospace;
   --serif: 'Lora', serif;
-  --sans: 'DM Sans', sans-serif;
+  --sans: 'Instrument Sans', sans-serif;
 }
 
 html { scroll-behavior: smooth; }
