@@ -539,9 +539,10 @@ body {
 
 .scope-items {
   display: grid;
-  grid-template-columns: repeat(4, 1fr);
+  grid-template-columns: repeat(3, 1fr);
   gap: 0;
   border-top: 1px solid var(--rule);
+  justify-items: stretch;
 }
 
 .scope-item {
@@ -914,11 +915,21 @@ body {
 
   .scope-items {
     grid-template-columns: repeat(2, 1fr);
+    /* Remover a borda superior no mobile/tablet para evitar linha acima
+       do primeiro card; mantemos a borda no desktop. */
+    border-top: none;
   }
 
   .scope-item {
     border-bottom: 1px solid var(--rule);
     padding-bottom: 2rem;
+  }
+
+  /* Remover borda inferior do último item em layouts de tablet/mobile
+     para evitar linha sobrando ao final da coluna. */
+  .scope-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
   }
 
   .scope-item:nth-child(odd) {
@@ -980,6 +991,8 @@ body {
 @media (max-width: 600px) {
   .scope-items {
     grid-template-columns: 1fr;
+    /* Também garantir que em telas muito pequenas a borda superior não apareça */
+    border-top: none;
   }
 
   .section {
@@ -991,6 +1004,20 @@ body {
     padding-left: 0;
     padding-right: 0;
     border-right: none;
+  }
+
+  /* Garantir também que no mobile o último item não tenha borda inferior */
+  .scope-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  /* Garantir que o primeiro item não exiba borda direita em telas pequenas
+     (entre 0 e 900px a regra de coluna dupla poderia aplicar borda à primeira)
+     Removemos essa borda para aparência mais limpa no mobile. */
+  .scope-item:first-child {
+    border-right: none;
+    padding-right: 0;
   }
 }
 
